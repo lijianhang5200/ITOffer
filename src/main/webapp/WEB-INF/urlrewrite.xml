@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<urlrewrite>
+    <rule>
+        <!-- 地址栏显示的地址 -->
+        <from>register.html</from>
+        <!-- 真实的请求地址 -->
+        <to>/UserServlet?type=register</to>
+    </rule>
+    <rule>
+        <!-- 地址栏显示的地址 -->
+        <from>login.html</from>
+        <!-- 真实的请求地址 -->
+        <to>/UserServlet?type=login</to>
+    </rule>
+    <rule>
+        <!-- 地址栏显示的地址 -->
+        <from>logout.html</from>
+        <!-- 真实的请求地址 -->
+        <to>/UserServlet?type=logout</to>
+    </rule>
+</urlrewrite>
