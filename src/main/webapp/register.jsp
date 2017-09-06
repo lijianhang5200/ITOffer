@@ -2,22 +2,27 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<title>注册 - 锐聘网</title>
 		<%@ include file="head.jsp" %>
 		<link href="css/register.css" type="text/css" rel="stylesheet" />
 		<script>
-    		$(function(){
-    			getVcode();
-    		})
-    		function getVcode(){
-    			$("img#vcode").attr("src","VcodeServlet?random="+Math.random());
-    		}
-    	</script>
+			$(function() {
+				getVcode();
+			})
+
+			function getVcode() {
+				$("img#vcode").attr("src", "VcodeServlet?random=" + Math.random());
+			}
+		</script>
 	</head>
+
 	<body>
-		<div width="100%" height="100"><jsp:include page="top.jsp" flush="true" /></div>
-		<form action="register.html" method="post">
+		<div width="100%" height="100">
+			<jsp:include page="top.jsp" flush="true" />
+		</div>
+		<form action="register.do" method="post">
 			<div class="content">
 				<div class="page_name">注册</div>
 				<div class="login_content">
@@ -60,6 +65,9 @@
 				</div>
 			</div>
 		</form>
-		<div width="100%" height="150"><%@ include file="foot.jsp" %></div>
+		<div width="100%" height="150">
+			<%@ include file="foot.jsp" %>
+		</div>
 	</body>
+
 </html>

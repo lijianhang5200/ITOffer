@@ -24,28 +24,30 @@ public class UserServlet extends HttpServlet {
 		ApplicantDao appDao = new ApplicantDao();
 		HttpSession session = request.getSession();
 		String type = request.getParameter("type");
-		System.out.println(type);
 		if ("login".equals(type)) {
+			//登录成功
 			String email = request.getParameter("email").trim();
 			String password = request.getParameter("password").trim();
 			ApplicantBean appBean = appDao.getAdminByEmail(email);
 			if (appBean == null) {
 				// 没有查到用户
 				request.setAttribute("message", "没有查到用户");
-				request.getRequestDispatcher("error.jsp").forward(request, response);
+				request.getRequestDispatcher(request.getContextPath()+"/error.jsp").forward(request, response);
 			} else if (!password.equals(appBean.getApplicant_pwd())) {
 				// // 密码错误
 				request.setAttribute("message", "密码错误");
-				request.getRequestDispatcher("error.jsp").forward(request, response);
+				request.getRequestDispatcher(request.getContextPath()+"/error.jsp").forward(request, response);
 			} else {
 				// // 全部正确，登录成功，跳转到自己的库页面
 				session.setAttribute("user", appBean);
-				response.sendRedirect("index.jsp");
+				response.sendRedirect(request.getContextPath()+"/index.html");
 			}
 		} else if ("logout".equals(type)) {
+			//退出登录
 			session.setAttribute("user", null);
-			response.sendRedirect("index.jsp");
+			response.sendRedirect(request.getContextPath()+"/regsuccess.html");
 		} else if ("register".equals(type)) {
+			//注册成功
 			String email = request.getParameter("email").trim();
 			String password = request.getParameter("password").trim();
 			String vcode = request.getParameter("vcode").trim().toLowerCase();
@@ -65,7 +67,7 @@ public class UserServlet extends HttpServlet {
 				// 验证码正确
 				ApplicantBean appBean = new ApplicantBean().setApplicant_email(email).setApplicant_pwd(password);
 				if (appDao.add(appBean)) {
-					response.sendRedirect("index.jsp");
+					response.sendRedirect(request.getContextPath()+"/regsuccess.html");
 				} else {
 					request.setAttribute("message", "添加失败请重试");
 					request.getRequestDispatcher("error.jsp").forward(request, response);
@@ -73,7 +75,7 @@ public class UserServlet extends HttpServlet {
 			} else {
 				// 验证码错误
 				request.setAttribute("message", "验证码错误");
-				request.getRequestDispatcher("error.jsp").forward(request, response);
+				request.getRequestDispatcher(request.getContextPath()+"/error.jsp").forward(request, response);
 			}
 		}
 	}

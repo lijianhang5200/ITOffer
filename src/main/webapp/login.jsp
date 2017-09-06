@@ -8,10 +8,11 @@
 		<%@ include file="head.jsp" %>
 		<link href="css/login.css" type="text/css" rel="stylesheet" />
 	</head>
-
 	<body>
-		<div width="100%" height="100"><jsp:include page="top.jsp" flush="true" /></div>
-		<form action="login.html" method="post">
+		<div width="100%" height="100">
+			<jsp:include page="top.jsp" flush="true" />
+		</div>
+		<form action="login.do" method="post">
 			<div class="content">
 				<div class="page_name">登陆</div>
 				<div class="login_content">
@@ -19,11 +20,11 @@
 						<p class="font14">使用注册邮箱登录</p>
 						<div class="span1">
 							<label class="tn-form-label">邮箱：</label>
-							<input name="email" class="tn-textbox" type="text">
+							<input name="email" class="tn-textbox" type="text" value="lijianhang">
 						</div>
 						<div class="span1">
 							<label class="tn-form-label">密码：</label>
-							<input name="password" class="tn-textbox" type="password">
+							<input name="password" class="tn-textbox" type="password" value="123456">
 						</div>
 						<div class="tn-form-row-button">
 							<div class="span1">
@@ -48,6 +49,9 @@
 				</div>
 			</div>
 		</form>
-		<div width="100%" height="150"><%@ include file="foot.jsp" %></div>
+		<div width="100%" height="150">
+			<%@ include file="foot.jsp" %>
+		</div>
 	</body>
+
 </html>

@@ -1,0 +1,3 @@
+<%@ include file="../head.jsp" %>   applicant/     <div width="100%" height="100"><jsp:include page="resume_right.jsp" flush="true" /></div>
+<div width="100%" height="100"><jsp:include page="../top.jsp" flush="true" /></div>
+<div width="100%" height="150"><%@ include file="../foot.jsp" %></div>
