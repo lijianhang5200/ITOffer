@@ -1,5 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page import="com.qst.itoffer.bean.ResumeBasicinfoBean,com.qst.itoffer.bean.ApplicantBean,com.qst.itoffer.dao.ResumeBasicinfoDao"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+ApplicantBean appBean = (ApplicantBean) session.getAttribute("user");
+if (appBean != null) {
+	ResumeBasicinfoDao resumeBasicinfoDao = new ResumeBasicinfoDao();
+	ResumeBasicinfoBean resumeBasicinfoBean = resumeBasicinfoDao.get(appBean.getApplicant_id());
+	request.setAttribute("ResumeBasicinfoBean", resumeBasicinfoBean);
+}
+%>
 <!doctype html>
 <html>
 
@@ -45,54 +54,59 @@
 							<table width="300" border="0" cellpadding="3" cellspacing="1" bgcolor="#EEEEEE">
 								<tr>
 									<th width="110" align="right" bgcolor="#F8F8F8">姓名：</th>
-									<td bgcolor="#F8F8F8">冯娟娟</td>
+									<td bgcolor="#F8F8F8">${requestScope.ResumeBasicinfoBean.realname }</td>
 								</tr>
 							</table>
 							<div class="he"></div>
 							<table width="300" border="0" cellpadding="3" cellspacing="1" bgcolor="#EEEEEE">
 								<tr>
 									<th width="110" align="right" bgcolor="#F8F8F8">性别：</th>
-									<td bgcolor="#F8F8F8">女</td>
+									<td bgcolor="#F8F8F8">
+										<c:if test='${requestScope.ResumeBasicinfoBean.gender == 0}'>女</c:if>
+										<c:if test='${requestScope.ResumeBasicinfoBean.gender == 1}'>男</c:if>
+									</td>
 								</tr>
 							</table>
 							<div class="he"></div>
 							<table width="300" border="0" cellpadding="3" cellspacing="1" bgcolor="#EEEEEE">
 								<tr>
 									<th width="110" align="right" bgcolor="#F8F8F8">出生日期：</th>
-									<td bgcolor="#F8F8F8">2000-09-09</td>
+									<td bgcolor="#F8F8F8">${requestScope.ResumeBasicinfoBean.birthday }</td>
 								</tr>
 							</table>
 							<div class="he"></div>
 							<table width="300" border="0" cellpadding="3" cellspacing="1" bgcolor="#EEEEEE">
 								<tr>
 									<th width="110" align="right" bgcolor="#F8F8F8">手机：</th>
-									<td bgcolor="#F8F8F8">13133333333</td>
+									<td bgcolor="#F8F8F8">${requestScope.ResumeBasicinfoBean.telephone }</td>
 								</tr>
 							</table>
 							<div class="he"></div>
 							<table width="300" border="0" cellpadding="3" cellspacing="1" bgcolor="#EEEEEE">
 								<tr>
 									<th width="110" align="right" bgcolor="#F8F8F8">邮件：</th>
-									<td bgcolor="#F8F8F8">test@test.com</td>
+									<td bgcolor="#F8F8F8">${requestScope.ResumeBasicinfoBean.email }</td>
 								</tr>
 							</table>
 							<div class="he"></div>
 							<table width="300" border="0" cellpadding="3" cellspacing="1" bgcolor="#EEEEEE">
 								<tr>
 									<th width="110" align="right" bgcolor="#F8F8F8">求职意向：</th>
-									<td bgcolor="#F8F8F8">软件开发工程师</td>
+									<td bgcolor="#F8F8F8">${requestScope.ResumeBasicinfoBean.job_intension }</td>
 								</tr>
 							</table>
 							<div class="he"></div>
 							<table width="300" border="0" cellpadding="3" cellspacing="1" bgcolor="#EEEEEE">
 								<tr>
 									<th width="110" align="right" bgcolor="#F8F8F8">工作经验：</th>
-									<td bgcolor="#F8F8F8">应届毕业生</td>
+									<td bgcolor="#F8F8F8">${requestScope.ResumeBasicinfoBean.job_experience }</td>
 								</tr>
 							</table>
 							<div class="he"></div>
 						</div>
-						<div style="float:right" class="uploade"><img src="images/person_img.jpg">
+						<div style="float:right" class="uploade">
+						<c:if test='${empty requestScope.ResumeBasicinfoBean.head_shot }'><img id="headpic" src="images/885220059400.jpg" width="150" height="150"></c:if>
+						<c:if test='${not empty requestScope.ResumeBasicinfoBean.head_shot }'><img id="headpic" src='dfile?${requestScope.ResumeBasicinfoBean.head_shot }' width="150" height="150"></c:if>
 							<div align="center">
 								<a href="applicant/resumeBasicInfoPicUpload.html" class="uploade_btn">更换照片</a>
 							</div>

@@ -1,5 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page import="com.qst.itoffer.bean.ResumeBasicinfoBean,com.qst.itoffer.bean.ApplicantBean,com.qst.itoffer.dao.ResumeBasicinfoDao"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+ApplicantBean appBean = (ApplicantBean) session.getAttribute("user");
+if (appBean != null) {
+	ResumeBasicinfoDao resumeBasicinfoDao = new ResumeBasicinfoDao();
+	ResumeBasicinfoBean resumeBasicinfoBean = resumeBasicinfoDao.get(appBean.getApplicant_id());
+	request.setAttribute("ResumeBasicinfoBean", resumeBasicinfoBean);
+}
+%>
 <!doctype html>
 <html>
 
@@ -10,9 +19,7 @@
 	</head>
 
 	<body>
-		<div width="100%" height="100">
-			<jsp:include page="../top.jsp" flush="true" />
-		</div>
+		<div width="100%" height="100"><jsp:include page="../top.jsp" flush="true" /></div>
 		<div class="resume_con">
 			<div class="status">
 				<div style="float:left">
@@ -22,15 +29,18 @@
 			</div>
 			<div class="all_resume">
 				<div style="float:left">
-					<span class="person_name">冯娟娟：</span>年龄28岁
-					<p>java工程师 | 刚刚增加工作| 现居山东省青岛市市南区</p>
-					<p>手机：13587845785</p>
+					<span class="person_name">${requestScope.ResumeBasicinfoBean.realname }：</span>
+					<p>${requestScope.ResumeBasicinfoBean.job_intension } | ${requestScope.ResumeBasicinfoBean.job_experience }| 现居山东省青岛市市南区</p>
+					<p>手机：${requestScope.ResumeBasicinfoBean.telephone }</p>
 					<p>QQ：43232322</p>
-					<p>电子邮件：13587845@qq.com</p>
+					<p>电子邮件：${requestScope.ResumeBasicinfoBean.email }</p>
 					<p>户口所在地：山东省青岛市市南区</p>
-					<p>出生日期：1982/1/9</p>
+					<p>出生日期：${requestScope.ResumeBasicinfoBean.birthday }</p>
 				</div>
-				<div style="float:right"><img src="images/person_img.jpg"></div>
+				<div style="float:right">
+					<c:if test='${empty requestScope.ResumeBasicinfoBean.head_shot }'><img id="headpic" src="images/885220059400.jpg" width="150" height="150"></c:if>
+					<c:if test='${not empty requestScope.ResumeBasicinfoBean.head_shot }'><img id="headpic" src='dfile?${requestScope.ResumeBasicinfoBean.head_shot }' width="150" height="150"></c:if>
+				</div>
 				<div class="clear"></div>
 			</div>
 			<div class="resume_title">教育经历</div>

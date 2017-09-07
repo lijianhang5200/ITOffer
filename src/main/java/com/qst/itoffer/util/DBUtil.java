@@ -6,12 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class DBUtil {
 	public static final String user = "root";
 	public static final String pwd = "0";
 	public static final String url = "jdbc:mysql://localhost:3306/itoffer";
-	//静态加载驱动
+	// 静态加载驱动
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -19,7 +21,8 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
-	//获取数据库连接
+
+	// 获取数据库连接
 	public static Connection getConnect() {
 		Connection conn = null;
 		try {
@@ -29,7 +32,8 @@ public class DBUtil {
 		}
 		return conn;
 	}
-	//关闭对数据库的连接
+
+	// 关闭对数据库的连接
 	public static void close(ResultSet rs, Statement pstm, Connection conn) {
 		if (rs != null) {
 			try {
@@ -53,7 +57,8 @@ public class DBUtil {
 			}
 		}
 	}
-	//获取总共数据量
+
+	// 获取总共数据量
 	public static int getCount(String table, String str_where) {
 		Connection conn = getConnect();
 		String sql = "select count(*) from " + table + str_where;
@@ -72,5 +77,43 @@ public class DBUtil {
 			close(rs, stm, conn);
 		}
 		return count;
+	}
+
+	public static java.util.Date sqlDateToUtilDate(java.sql.Date date) {
+		return new java.util.Date(date.getTime());
+	}
+
+	public static java.util.Date utilDateToSqlDate(java.util.Date date) {
+		return new java.sql.Date(date.getTime());
+	}
+
+	public static java.sql.Time utilDateToSqlTime(java.util.Date date) {
+		return new java.sql.Time(date.getTime());
+	}
+
+	public static java.sql.Timestamp utilDateToSqlTimestamp(java.util.Date date) {
+		return new java.sql.Timestamp(date.getTime());
+	}
+
+	public static String formatDate(java.util.Date date) {
+		return new SimpleDateFormat("yyyy-MM-dd").format(date);
+	}
+
+	public static String formatTime(java.util.Date date) {
+		return new SimpleDateFormat("HH:mm:ss").format(date);
+	}
+
+	public static String formatDateTime(java.util.Date date) {
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+	}
+
+	public static java.util.Date stringTo (String dateString){
+		java.util.Date date = null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
 	}
 }

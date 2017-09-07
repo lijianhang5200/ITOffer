@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="head">
 	<div class="head_area">
 		<div class="head_nav">
@@ -17,14 +17,14 @@
 		</div>
 		<div class="head_logo"><img src="images/head_logo.png" /></div>
 		<div class="head_user">
-			<%-- <c:if test="${sessionScope.user != null}">
+			<c:if test="${sessionScope.user != null}">
 				<a href="applicant/resume.html">${sessionScope.user.applicant_email }</a>
 				<a href="logout.do">退出</a>
 			</c:if>
 			<c:if test="${sessionScope.user==null}">
 				<a href="login.html"><span class="type1">登录</span></a>
 				<a href="register.html"><span class="type2">注册</span></a>
-			</c:if> --%>
+			</c:if>
 		</div>
 		<div class="clear"></div>
 	</div>

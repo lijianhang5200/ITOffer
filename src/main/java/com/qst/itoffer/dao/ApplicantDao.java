@@ -1,10 +1,10 @@
 package com.qst.itoffer.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import com.qst.itoffer.bean.ApplicantBean;
 import com.qst.itoffer.util.DBUtil;
@@ -22,7 +22,7 @@ public class ApplicantDao {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, app.getApplicant_email());
 			pstm.setString(2, app.getApplicant_pwd());
-			pstm.setDate(3, new Date(System.currentTimeMillis()));
+			pstm.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
 			i = pstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -36,7 +36,6 @@ public class ApplicantDao {
 		ApplicantBean appBean = null;
 		conn = DBUtil.getConnect();
 		String sql = "select * from tb_applicant where applicant_email = ?";
-		int i = 0;
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, email);
@@ -53,5 +52,24 @@ public class ApplicantDao {
 			DBUtil.close(rs, pstm, conn);
 		}
 		return appBean;
+	}
+
+	public boolean isExist(String email) {
+		conn = DBUtil.getConnect();
+		String sql = "select * from tb_applicant where APPLICANT_EMAIL=?";
+		boolean flag = false;
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, email);
+			rs = pstm.executeQuery();
+			if(rs.next()){
+				flag = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs, pstm, conn);
+		}
+		return flag;
 	}
 }

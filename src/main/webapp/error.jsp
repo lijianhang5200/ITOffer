@@ -17,10 +17,10 @@
 		<div class="success_content">
 			<div class="success_left">
 				<div class="error"><img alt="" src="images/error.gif"></div>
-				<c:if test='${requestScope.message != null}'>
+				<c:if test='${not empty requestScope.message }'>
 					<h2 align="center">${requestScope.message }</h2>
 				</c:if>
-				<c:if test="${requestScope.message == null}">
+				<c:if test="${empty requestScope.message}">
 					<h2 align="center">出错了！</h2>
 				</c:if>
 			</div>
@@ -28,7 +28,7 @@
 				<p class="green16">错误提示信息</p>
 				<p>
 					<a href="javascript:window.history.go(-1);"><span class="tn-button">返回上一步</span></a>
-					<a href="index.jsp"><span class="tn-button">返回首页</span></a>
+					<a href="index.html"><span class="tn-button">返回首页</span></a>
 				</p>
 			</div>
 			<div class="clear"></div>

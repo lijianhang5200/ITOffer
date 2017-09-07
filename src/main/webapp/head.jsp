@@ -15,3 +15,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/jquery.js"></script>
 <script src="js/sliderkit_002.js"></script>
 <script src="js/sliderkit.js"></script>
+<script src="js/uploadReplace.js"></script>

@@ -32,20 +32,20 @@ public class UserServlet extends HttpServlet {
 			if (appBean == null) {
 				// 没有查到用户
 				request.setAttribute("message", "没有查到用户");
-				request.getRequestDispatcher(request.getContextPath()+"/error.jsp").forward(request, response);
+				request.getRequestDispatcher("error.jsp").forward(request, response);
 			} else if (!password.equals(appBean.getApplicant_pwd())) {
 				// // 密码错误
 				request.setAttribute("message", "密码错误");
-				request.getRequestDispatcher(request.getContextPath()+"/error.jsp").forward(request, response);
+				request.getRequestDispatcher("error.jsp").forward(request, response);
 			} else {
 				// // 全部正确，登录成功，跳转到自己的库页面
 				session.setAttribute("user", appBean);
-				response.sendRedirect(request.getContextPath()+"/index.html");
+				response.sendRedirect("index.html");
 			}
 		} else if ("logout".equals(type)) {
 			//退出登录
 			session.setAttribute("user", null);
-			response.sendRedirect(request.getContextPath()+"/regsuccess.html");
+			response.sendRedirect("index.html");
 		} else if ("register".equals(type)) {
 			//注册成功
 			String email = request.getParameter("email").trim();
@@ -59,15 +59,27 @@ public class UserServlet extends HttpServlet {
 					break;
 				}
 			}
-			if (codesys == null) {
+			if(email == null || "".equals(email)){
+				request.setAttribute("message", "邮箱不能为空");
+				request.getRequestDispatcher("error.jsp").forward(request, response);
+			} else if(password == null || "".equals(password)){
+				request.setAttribute("message", "密码不能为空");
+				request.getRequestDispatcher("error.jsp").forward(request, response);
+			} else if(vcode == null || "".equals(vcode)){
+				request.setAttribute("message", "验证码不能为空");
+				request.getRequestDispatcher("error.jsp").forward(request, response);
+			} else if (codesys == null) {
 				// 验证码过期
 				request.setAttribute("message", "验证码过期");
 				request.getRequestDispatcher("error.jsp").forward(request, response);
 			} else if (codesys.toLowerCase().equals(vcode)) {
 				// 验证码正确
 				ApplicantBean appBean = new ApplicantBean().setApplicant_email(email).setApplicant_pwd(password);
-				if (appDao.add(appBean)) {
-					response.sendRedirect(request.getContextPath()+"/regsuccess.html");
+				if(appDao.isExist(email)){
+					request.setAttribute("message", "用户已存在");
+					request.getRequestDispatcher("error.jsp").forward(request, response);
+				} else if (appDao.add(appBean)) {
+					response.sendRedirect("regsuccess.html");
 				} else {
 					request.setAttribute("message", "添加失败请重试");
 					request.getRequestDispatcher("error.jsp").forward(request, response);
@@ -75,7 +87,7 @@ public class UserServlet extends HttpServlet {
 			} else {
 				// 验证码错误
 				request.setAttribute("message", "验证码错误");
-				request.getRequestDispatcher(request.getContextPath()+"/error.jsp").forward(request, response);
+				request.getRequestDispatcher("error.jsp").forward(request, response);
 			}
 		}
 	}
