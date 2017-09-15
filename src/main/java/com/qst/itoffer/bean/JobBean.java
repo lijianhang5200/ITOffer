@@ -13,7 +13,7 @@ public class JobBean {
 		this.job_id = job_id;
 		return this;
 	}
-	public int getCOMPANY_ID() {
+	public int getCompany_id() {
 		return company_id;
 	}
 	public JobBean setCompany_id(int company_id) {

@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-ApplicantBean appBean = (ApplicantBean) session.getAttribute("user");
+ApplicantBean appBean = (ApplicantBean) session.getAttribute("SESSION_LOGIN_USER");
 if (appBean != null) {
 	ResumeBasicinfoDao resumeBasicinfoDao = new ResumeBasicinfoDao();
 	ResumeBasicinfoBean resumeBasicinfoBean = resumeBasicinfoDao.get(appBean.getApplicant_id());
@@ -43,8 +43,7 @@ if (appBean != null) {
 						<div style="float:left">基本信息</div>
 					</div>
 					<div class="all_resume">
-						<form action="resume" method="post">
-							<input type="hidden" hidden="hidden" name="type" value="basic">
+						<form action="basic.resume" method="post">
 							<input type="hidden" hidden="hidden" name="applicant_id" value="${requestScope.ResumeBasicinfoBean.applicant_id }">
 							<div class="table_style">
 								<table width="300" border="0" cellpadding="3" cellspacing="1" bgcolor="#EEEEEE">

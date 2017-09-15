@@ -1,8 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<title>注册 - 锐聘网</title>
 		<%@ include file="head.jsp" %>
@@ -11,7 +9,6 @@
 			$(function() {
 				getVcode();
 			})
-
 			function getVcode() {
 				$("img#vcode").attr("src", "VcodeServlet?random=" + Math.random());
 			}
@@ -22,7 +19,7 @@
 		<div width="100%" height="100">
 			<jsp:include page="top.jsp" flush="true" />
 		</div>
-		<form action="register.do" method="post">
+		<form action="register.do" method="post" onsubmit="return valicate();">
 			<div class="content">
 				<div class="page_name">注册</div>
 				<div class="login_content">
@@ -65,6 +62,23 @@
 				</div>
 			</div>
 		</form>
+		<script type="text/javascript">
+			function valicate(){
+				var email = $("input[name='email']").val();
+				if(email == ""){
+					return false;
+				}
+				var password = $("input[name='password']").val();
+				if(password == ""){
+					return false;
+				}
+				var vcode = $("input[name='vcode']").val();
+				if(vcode == ""){
+					return false;
+				}
+				return true;
+			}
+		</script>
 		<div width="100%" height="150">
 			<%@ include file="foot.jsp" %>
 		</div>

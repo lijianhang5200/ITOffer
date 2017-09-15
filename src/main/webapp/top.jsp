@@ -17,11 +17,11 @@
 		</div>
 		<div class="head_logo"><img src="images/head_logo.png" /></div>
 		<div class="head_user">
-			<c:if test="${sessionScope.user != null}">
-				<a href="applicant/resume.html">${sessionScope.user.applicant_email }</a>
+			<c:if test="${sessionScope.SESSION_LOGIN_USER != null}">
+				<a href="applicant/resume.html">${sessionScope.SESSION_LOGIN_USER.applicant_email }</a>
 				<a href="logout.do">退出</a>
 			</c:if>
-			<c:if test="${sessionScope.user==null}">
+			<c:if test="${sessionScope.SESSION_LOGIN_USER==null}">
 				<a href="login.html"><span class="type1">登录</span></a>
 				<a href="register.html"><span class="type2">注册</span></a>
 			</c:if>

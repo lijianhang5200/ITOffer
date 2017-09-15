@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.qst.itoffer.bean.ResumeBasicinfoBean;
+import com.qst.itoffer.util.BaiDuPage;
 import com.qst.itoffer.util.DBUtil;
 
 public class ResumeBasicinfoDao {
@@ -31,13 +34,11 @@ public class ResumeBasicinfoDao {
 			pstm.setString(9, resumeBasicinfoBean.getJob_intension());
 			pstm.setString(10, resumeBasicinfoBean.getJob_experience());
 			i = pstm.executeUpdate();
-			System.out.println("执行完毕");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DBUtil.close(rs, pstm, conn);
 		}
-		System.out.println("i=="+i);
 		return i>0;
 	}
 	
@@ -122,5 +123,29 @@ public class ResumeBasicinfoDao {
 			DBUtil.close(rs, pstm, conn);
 		}
 		return resumeBasicinfoBean;
+	}
+	public List<ResumeBasicinfoBean> getPageList(int pagenum) {
+		List<ResumeBasicinfoBean> list = new ArrayList<ResumeBasicinfoBean>();
+		conn = DBUtil.getConnect();
+		String sql = "select * from tb_resume_basicinfo limit ?,?";
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, (pagenum -1) * BaiDuPage.pagelistnum);
+			pstm.setInt(2, BaiDuPage.pagelistnum);
+			rs = pstm.executeQuery();
+			while (rs.next()){
+				ResumeBasicinfoBean resumeBasicinfoBean = new ResumeBasicinfoBean().setBasicinfo_id(rs.getInt("BASICINFO_ID"))
+						.setApplicant_id(rs.getInt("APPLICANT_ID")).setRealname(rs.getString("REALNAME")).setGender(rs.getInt("GENDER"))
+						.setBirthday(rs.getString("BIRTHDAY")).setCurrent_loc(rs.getString("CURRENT_LOC")).setResident_loc(rs.getString("RESIDENT_LOC"))
+						.setTelephone(rs.getString("TELEPHONE")).setEmail(rs.getString("EMAIL")).setJob_intension(rs.getString("JOB_INTENSION"))
+						.setJob_experience(rs.getString("JOB_EXPERIENCE")).setHead_shot(rs.getString("HEAD_SHOT"));
+				list.add(resumeBasicinfoBean);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs, pstm, conn);
+		}
+		return list;
 	}
 }

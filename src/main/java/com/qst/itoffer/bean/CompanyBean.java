@@ -4,8 +4,8 @@ import java.util.List;
 
 public class CompanyBean {
 	private int company_id;
-	private String company_name,company_area,company_size,company_type,company_brief,company_viewnum,company_pic;
-	private int company_state,company_sort;
+	private String company_name,company_area,company_size,company_brief,company_pic;
+	private int company_state,company_sort,company_viewnum,company_type;
 	private List<JobBean> jobList;
 	
 	public int getCompany_id() {
@@ -36,10 +36,10 @@ public class CompanyBean {
 		this.company_size = company_size;
 		return this;
 	}
-	public String getCompany_type() {
+	public int getCompany_type() {
 		return company_type;
 	}
-	public CompanyBean setCompany_type(String company_type) {
+	public CompanyBean setCompany_type(int company_type) {
 		this.company_type = company_type;
 		return this;
 	}
@@ -50,10 +50,10 @@ public class CompanyBean {
 		this.company_brief = company_brief;
 		return this;
 	}
-	public String getCompany_viewnum() {
+	public int getCompany_viewnum() {
 		return company_viewnum;
 	}
-	public CompanyBean setCompany_viewnum(String company_viewnum) {
+	public CompanyBean setCompany_viewnum(int company_viewnum) {
 		this.company_viewnum = company_viewnum;
 		return this;
 	}

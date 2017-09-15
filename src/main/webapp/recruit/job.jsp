@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<title>“锐聘之星”软件设计大赛 - 锐聘网</title>
 		<%@ include file="../head.jsp" %>

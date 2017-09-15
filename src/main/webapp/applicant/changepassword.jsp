@@ -2,13 +2,11 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<title>修改密码 - 锐聘网</title>
 		<%@ include file="../head.jsp" %>
 		<link href="css/chagepassword.css" rel="stylesheet" type="text/css" />
 	</head>
-
 	<body class="tn-page-bg">
 		<div width="100%" height="100">
 			<jsp:include page="../top.jsp" flush="true" />
@@ -44,9 +42,7 @@
 							</div>
 							<div class="it-main">
 								<div class="tn-main-heading">
-									<h3>
-                <div class="it-title"> <span class="it-vertical-bars"> </span> 修改登录密码 </div>
-              </h3>
+									<h3><div class="it-title"> <span class="it-vertical-bars"> </span> 修改登录密码 </div></h3>
 								</div>
 								<div class="it-form-box">
 									<form>
@@ -79,5 +75,4 @@
 			<%@ include file="../foot.jsp" %>
 		</div>
 	</body>
-
 </html>

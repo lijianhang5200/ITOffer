@@ -1,12 +1,14 @@
+<%@page import="com.qst.itoffer.dao.EduDao"%>
 <%@page import="com.qst.itoffer.bean.ResumeBasicinfoBean,com.qst.itoffer.bean.ApplicantBean,com.qst.itoffer.dao.ResumeBasicinfoDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-ApplicantBean appBean = (ApplicantBean) session.getAttribute("user");
+ApplicantBean appBean = (ApplicantBean) session.getAttribute("SESSION_LOGIN_USER");
 if (appBean != null) {
 	ResumeBasicinfoDao resumeBasicinfoDao = new ResumeBasicinfoDao();
-	ResumeBasicinfoBean resumeBasicinfoBean = resumeBasicinfoDao.get(appBean.getApplicant_id());
-	request.setAttribute("ResumeBasicinfoBean", resumeBasicinfoBean);
+	request.setAttribute("ResumeBasicinfoBean", resumeBasicinfoDao.get(appBean.getApplicant_id()));
+	EduDao eduDao = new EduDao();
+	request.setAttribute("edulist", eduDao.getByApplicantId(appBean.getApplicant_id()));
 }
 %>
 <!doctype html>
@@ -115,39 +117,45 @@ if (appBean != null) {
 					</div>
 					<div class="resume_title">
 						<div style="float:left">教育经历</div>
-						<div class="btn">添加</div>
+						<div class="btn"><a href="applicant/resumeedu.jsp">添加</a></div>
 					</div>
 					<div class="it-table-grid">
+						<form name="deledu" action="deledu.resume" method="post">
+							<input type="hidden" name="eduid" value="">
+						</form>
+						<script type="text/javascript">
+							function deledu(id){
+								if(confirm("确定删除这条教育经历吗？")){
+									$("input[name='eduid']").val(id);
+									$("form[name='deledu']").submit();
+								}
+							}
+						</script>
 						<ul>
 							<li class="tn-border-gray tn-border-bottom it-table-grid-header">
-								<p class="tn-name">
-									毕业院校</p>
-								<p class="tn-date">
-									就读时间</p>
-								<p class="tn-degree">
-									学历</p>
-								<p class="tn-fieldofstudy">
-									专业</p>
+								<p class="tn-name">毕业院校</p>
+								<p class="tn-date">就读时间</p>
+								<p class="tn-degree">学历</p>
+								<p class="tn-fieldofstudy">专业</p>
 							</li>
+							<c:forEach items="${requestScope.edulist }" var="item">
 							<li class="tn-border-gray tn-border-bottom">
-								<p class="tn-name" title="青软实训">
-									青软实训
-								</p>
-								<p class="tn-date">2013/10-2014/10</p>
-								<p class="tn-degree" title="">
-									本科&nbsp;
-								</p>
-								<p class="tn-fieldofstudy" title="软件工程">
-									软件工程&nbsp;
-								</p>
-								<span class="tn-actions"><a href="#" class="tn-action tn-action-text-icon">
-			            <span class="tn-icon it-icon-modify"></span><span class="tn-action-text">修改</span>
-								</a>
-								<a href="" class="tn-action tn-action-text-icon tn-delete">
-									<span class="tn-icon it-icon-delete"></span><span class="tn-action-text">删除</span>
-								</a>
+								<p class="tn-name" title="青软实训">${item.school }</p>
+								<p class="tn-date">${item.time }</p>
+								<p class="tn-degree">${item.education }&nbsp;</p>
+								<p class="tn-fieldofstudy">${item.major }&nbsp;</p>
+								<span class="tn-actions">
+									<a href="applicant/resumeedu.html?${item.eduid }" class="tn-action tn-action-text-icon">
+				            			<span class="tn-icon it-icon-modify"></span>
+				            			<span class="tn-action-text">修改</span>
+									</a>
+									<a href="javascript:deledu(${item.eduid });"  class="tn-action tn-action-text-icon tn-delete">
+										<span class="tn-icon it-icon-delete"></span>
+										<span class="tn-action-text">删除</span>
+									</a>
 								</span>
 							</li>
+							</c:forEach>
 						</ul>
 					</div>
 
@@ -158,32 +166,25 @@ if (appBean != null) {
 					<div class="it-table-grid">
 						<ul>
 							<li class="tn-border-gray tn-border-bottom it-table-grid-header">
-								<p class="tn-name">
-									工作公司 </p>
-								<p class="tn-date">
-									在职时间</p>
-								<p class="tn-degree">
-									部门</p>
-								<p class="tn-fieldofstudy">
-									职位名称</p>
+								<p class="tn-name">工作公司 </p>
+								<p class="tn-date">在职时间</p>
+								<p class="tn-degree">部门</p>
+								<p class="tn-fieldofstudy">职位名称</p>
 							</li>
 							<li class="tn-border-gray tn-border-bottom">
-								<p class="tn-name" title="青软实训">
-									青软实训
-								</p>
+								<p class="tn-name" title="青软实训">青软实训</p>
 								<p class="tn-date">2013/10-2014/10</p>
-								<p class="tn-degree" title="">
-									研发部
-								</p>
-								<p class="tn-fieldofstudy" title="软件工程">
-									软件开发工程师
-								</p>
-								<span class="tn-actions"><a href="#" class="tn-action tn-action-text-icon">
-			            <span class="tn-icon it-icon-modify"></span><span class="tn-action-text">修改</span>
-								</a>
-								<a href="" class="tn-action tn-action-text-icon tn-delete">
-									<span class="tn-icon it-icon-delete"></span><span class="tn-action-text">删除</span>
-								</a>
+								<p class="tn-degree">研发部</p>
+								<p class="tn-fieldofstudy">软件开发工程师</p>
+								<span class="tn-actions">
+									<a href="#" class="tn-action tn-action-text-icon">
+			            				<span class="tn-icon it-icon-modify"></span>
+			            				<span class="tn-action-text">修改</span>
+									</a>
+									<a href="" class="tn-action tn-action-text-icon tn-delete">
+										<span class="tn-icon it-icon-delete"></span>
+										<span class="tn-action-text">删除</span>
+									</a>
 								</span>
 							</li>
 
@@ -197,14 +198,10 @@ if (appBean != null) {
 					<div class="it-table-grid">
 						<ul>
 							<li class="tn-border-gray tn-border-bottom it-table-grid-header">
-								<p class="tn-name">
-									项目名称 </p>
-								<p class="tn-date">
-									参与时间</p>
-								<p class="tn-degree">
-									担任职位</p>
+								<p class="tn-name">项目名称 </p>
+								<p class="tn-date">参与时间</p>
+								<p class="tn-degree">担任职位</p>
 							</li>
-
 						</ul>
 					</div>
 					<div class="resume_title">
@@ -214,10 +211,8 @@ if (appBean != null) {
 					<div class="it-table-grid">
 						<ul>
 							<li class="tn-border-gray tn-border-bottom it-table-grid-header">
-								<p class="tn-name">
-									培训名称 </p>
-								<p class="tn-date">
-									培训时间</p>
+								<p class="tn-name">培训名称 </p>
+								<p class="tn-date">培训时间</p>
 							</li>
 						</ul>
 					</div>
@@ -240,32 +235,25 @@ if (appBean != null) {
 					<div class="it-table-grid">
 						<ul>
 							<li class="tn-border-gray tn-border-bottom it-table-grid-header">
-								<p class="tn-name">
-									语言 </p>
-								<p class="tn-date">
-									听说</p>
-								<p class="tn-degree">
-									读写</p>
-								<p class="tn-fieldofstudy">
-									等级考试</p>
+								<p class="tn-name">语言 </p>
+								<p class="tn-date">听说</p>
+								<p class="tn-degree">读写</p>
+								<p class="tn-fieldofstudy">等级考试</p>
 							</li>
 							<li class="tn-border-gray tn-border-bottom">
-								<p class="tn-name" title="英语">
-									英语
-								</p>
+								<p class="tn-name" title="英语">英语</p>
 								<p class="tn-date">熟练</p>
-								<p class="tn-degree" title="">
-									熟练
-								</p>
-								<p class="tn-fieldofstudy" title="CET-6">
-									CET-6
-								</p>
-								<span class="tn-actions"><a href="#" class="tn-action tn-action-text-icon">
-			            <span class="tn-icon it-icon-modify"></span><span class="tn-action-text">修改</span>
-								</a>
-								<a href="" class="tn-action tn-action-text-icon tn-delete">
-									<span class="tn-icon it-icon-delete"></span><span class="tn-action-text">删除</span>
-								</a>
+								<p class="tn-degree">熟练</p>
+								<p class="tn-fieldofstudy">CET-6</p>
+								<span class="tn-actions">
+									<a href="#" class="tn-action tn-action-text-icon">
+			            				<span class="tn-icon it-icon-modify"></span>
+			            				<span class="tn-action-text">修改</span>
+									</a>
+									<a href="" class="tn-action tn-action-text-icon tn-delete">
+										<span class="tn-icon it-icon-delete"></span>
+										<span class="tn-action-text">删除</span>
+									</a>
 								</span>
 							</li>
 
@@ -278,49 +266,43 @@ if (appBean != null) {
 					<div class="it-table-grid">
 						<ul>
 							<li class="tn-border-gray tn-border-bottom it-table-grid-header">
-								<p class="tn-auto">
-									技能名称</p>
-
-								<p class="tn-name">
-									熟练程度</p>
+								<p class="tn-auto">技能名称</p>
+								<p class="tn-name">熟练程度</p>
 							</li>
 							<li class="tn-border-gray tn-border-bottom">
-								<p class="tn-auto">
-									Oracle</p>
-								<p class="tn-name">
-									熟练</p>
-								<span class="tn-actions"><a href="#" class="tn-action tn-action-text-icon">
-			            <span class="tn-icon it-icon-modify"></span><span class="tn-action-text">修改</span>
-								</a>
-								<a href="" class="tn-action tn-action-text-icon tn-delete">
-									<span class="tn-icon it-icon-delete"></span><span class="tn-action-text">删除</span>
-								</a>
+								<p class="tn-auto">Oracle</p>
+								<p class="tn-name">熟练</p>
+								<span class="tn-actions">
+									<a href="#" class="tn-action tn-action-text-icon">
+				            			<span class="tn-icon it-icon-modify"></span><span class="tn-action-text">修改</span>
+									</a>
+									<a href="" class="tn-action tn-action-text-icon tn-delete">
+										<span class="tn-icon it-icon-delete"></span><span class="tn-action-text">删除</span>
+									</a>
 								</span>
 							</li>
 							<li class="tn-border-gray tn-border-bottom">
-								<p class="tn-auto">
-									JavaEE</p>
-								<p class="tn-name">
-									熟练</p>
-								<span class="tn-actions"><a href="#" class="tn-action tn-action-text-icon">
-			            <span class="tn-icon it-icon-modify"></span><span class="tn-action-text">修改</span>
-								</a>
-								<a href="" class="tn-action tn-action-text-icon tn-delete">
-									<span class="tn-icon it-icon-delete"></span><span class="tn-action-text">删除</span>
-								</a>
+								<p class="tn-auto">JavaEE</p>
+								<p class="tn-name">熟练</p>
+								<span class="tn-actions">
+									<a href="#" class="tn-action tn-action-text-icon">
+				            			<span class="tn-icon it-icon-modify"></span><span class="tn-action-text">修改</span>
+									</a>
+									<a href="" class="tn-action tn-action-text-icon tn-delete">
+										<span class="tn-icon it-icon-delete"></span><span class="tn-action-text">删除</span>
+									</a>
 								</span>
 							</li>
 							<li class="tn-border-gray tn-border-bottom">
-								<p class="tn-auto">
-									Java</p>
-								<p class="tn-name">
-									熟练</p>
-								<span class="tn-actions"><a href="#" class="tn-action tn-action-text-icon">
-			            <span class="tn-icon it-icon-modify"></span><span class="tn-action-text">修改</span>
-								</a>
-								<a href="" class="tn-action tn-action-text-icon tn-delete">
-									<span class="tn-icon it-icon-delete"></span><span class="tn-action-text">删除</span>
-								</a>
+								<p class="tn-auto">Java</p>
+								<p class="tn-name">熟练</p>
+								<span class="tn-actions">
+									<a href="#" class="tn-action tn-action-text-icon">
+				            			<span class="tn-icon it-icon-modify"></span><span class="tn-action-text">修改</span>
+									</a>
+									<a href="" class="tn-action tn-action-text-icon tn-delete">
+										<span class="tn-icon it-icon-delete"></span><span class="tn-action-text">删除</span>
+									</a>
 								</span>
 							</li>
 
@@ -333,12 +315,9 @@ if (appBean != null) {
 					<div class="it-table-grid">
 						<ul>
 							<li class="tn-border-gray tn-border-bottom it-table-grid-header">
-								<p class="tn-name">
-									标题</p>
-								<p class="tn-auto">
-									描述</p>
+								<p class="tn-name">标题</p>
+								<p class="tn-auto">描述</p>
 							</li>
-
 						</ul>
 					</div>
 					<div class="resume_title">
@@ -346,10 +325,8 @@ if (appBean != null) {
 						<div class="btn">添加</div>
 					</div>
 					<div class="it-table-grid">
-						<div class="it-table-grid">
-							暂无附件！</div>
+						<div class="it-table-grid">暂无附件！</div>
 					</div>
-
 				</div>
 				<!--右边-->
 				<div width="100%" height="100">

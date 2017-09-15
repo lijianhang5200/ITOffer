@@ -3,13 +3,11 @@
 <%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
 <!Doctype html>
 <html>
-
 	<head>
 		<title>锐聘网</title>
 		<%@ include file="head.jsp" %>
 		<link href="css/error.css" type="text/css" rel="stylesheet" />
 	</head>
-
 	<body>
 		<div width="100%" height="100">
 			<jsp:include page="top.jsp" flush="true" />
@@ -33,9 +31,6 @@
 			</div>
 			<div class="clear"></div>
 		</div>
-		<div width="100%" height="150">
-			<%@ include file="foot.jsp" %>
-		</div>
+		<div width="100%" height="150"><%@ include file="foot.jsp" %></div>
 	</body>
-
 </html>

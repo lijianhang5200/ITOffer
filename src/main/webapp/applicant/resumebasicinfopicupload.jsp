@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-ApplicantBean appBean = (ApplicantBean) session.getAttribute("user");
+ApplicantBean appBean = (ApplicantBean) session.getAttribute("SESSION_LOGIN_USER");
 if (appBean != null) {
 	ResumeBasicinfoDao resumeBasicinfoDao = new ResumeBasicinfoDao();
 	ResumeBasicinfoBean resumeBasicinfoBean = resumeBasicinfoDao.get(appBean.getApplicant_id());
@@ -11,7 +11,6 @@ if (appBean != null) {
 %>
 <!doctype html>
 <html>
-
 	<head>
 		<title>我的简历 - 锐聘网</title>
 		<%@ include file="../head.jsp" %>
@@ -56,8 +55,7 @@ if (appBean != null) {
 					</div>
 					<div class="all_resume">
 						<!--------------------- 简历照片修改------------------------->
-						<form action="resume" method="post" onsubmit="return validate();">
-							<input type="hidden" hidden="hidden" name="type" value="pic">
+						<form action="pic.resume" method="post" onsubmit="return validate();">
 							<input type="hidden" hidden="hidden" name="applicant_id" value="${requestScope.ResumeBasicinfoBean.applicant_id }">
 							<div class="table_style" style="margin-left: 150px;">
 								<div class="uploade">
@@ -73,7 +71,7 @@ if (appBean != null) {
 								<div class="he"></div>
 								<div align="center">
 									<input type="submit" class="save1" value="保存">
-									<input type="reset" class="cancel2" value="取消">
+									<input type="button" class="cancel2" onclick="javascript:window.history.go(-1);" value="取消">
 								</div>
 							</div>
 						</form>
@@ -106,7 +104,7 @@ if (appBean != null) {
 						            $("input[name='filename']").val(data[0].filename);
 						        }
 						    });
-						    </script>
+					    </script>
 						<!--------------------- 简历照片修改 结束---------------------->
 					</div>
 				</div>

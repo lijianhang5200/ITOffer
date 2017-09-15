@@ -110,15 +110,16 @@ request.setAttribute("companyList", list);
 					<div class="tn-box tn-widget tn-widget-content tn-corner-all it-home-box">
 						<div class="tn-box-content tn-widget-content tn-corner-all">
 							<div class="it-company-keyimg tn-border-bottom tn-border-gray">
-								<a href="recruit/company.html" target="_blank"> <img src="dfile?${item.company_pic }" width="990"> </a>
+								<a href="recruit/company.html?${item.company_id }" target="_blank"> <img src="dfile?${item.company_pic }" width="990"> </a>
 							</div>
 							<c:if test="${not empty item.jobList }">
 								<div class="it-home-present">
 									<div class="it-present-btn">
-										<a class=" tn-button tn-button-home-apply" href="javascript:;"> <span class="tn-button-text">我要申请</span> </a>
+										<a class=" tn-button tn-button-home-apply" href="recruit/company.html?${item.company_id }#morejob" target="_blank"> <span class="tn-button-text">我要申请</span> </a>
 									</div>
 									<c:forEach items="${item.jobList }" varStatus="i" var="job">
-										<div class="it-present-text" style="padding-left:185px;">
+										<c:if test="${i.count == 1 }"><div class="it-present-text" style="padding-left:185px;"></c:if>
+										<c:if test="${i.count == 2 }"><div class="it-present-text"></c:if>
 											<div class="it-line01 it-text-bom">
 												<p class="it-text-tit">职位</p>
 												<p class="it-line01 it-text-explain">

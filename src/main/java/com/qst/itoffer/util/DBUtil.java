@@ -59,9 +59,9 @@ public class DBUtil {
 	}
 
 	// 获取总共数据量
-	public static int getCount(String table, String str_where) {
+	public static int getCount(String table) {
 		Connection conn = getConnect();
-		String sql = "select count(*) from " + table + str_where;
+		String sql = "select count(*) from " + table;
 		PreparedStatement stm = null;
 		ResultSet rs = null;
 		int count = 0;

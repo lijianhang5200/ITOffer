@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String basePath = "" + request.getScheme() + "://"+request.getServerName()+":" + request.getServerPort()+request.getContextPath()+"/";
+String first =(String) session.getAttribute("first");
+if("true".equals(first)){
+	request.setAttribute("url", request.getServletPath());
+	session.removeAttribute("first");
+	request.getRequestDispatcher("auto.do").forward(request, response);
+	return;
+}
 %>
 <base href="<%=basePath%>">
 <meta charset="utf-8">

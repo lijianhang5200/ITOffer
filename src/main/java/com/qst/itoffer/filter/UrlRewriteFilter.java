@@ -15,23 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 public class UrlRewriteFilter implements Filter {
 
     public UrlRewriteFilter() {
-    	
     }
 
 	public void destroy() {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// place your code here
 		String url = ((HttpServletRequest)request).getServletPath().toLowerCase();
 		url = url.replaceAll(".html",".jsp");
-		url = url.replaceAll(".xhtml",".jsp");
-		url = url.replaceAll(".shtml",".jsp");
 		url = url.replaceAll(".asp",".jsp");
 		url = url.replaceAll(".php",".jsp");
-		if(url.lastIndexOf(".do")>0){
-			url = "/UserServlet?type="+url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".do"));
-		}
+		url = url.replaceAll(".htm",".jsp");
 		request.getRequestDispatcher(url).forward(request, response);
 	}
 

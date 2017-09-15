@@ -25,7 +25,7 @@ public class ApplicantFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpSession session = ((HttpServletRequest) request).getSession();
-		ApplicantBean appBean = (ApplicantBean) session.getAttribute("user");
+		ApplicantBean appBean = (ApplicantBean) session.getAttribute("SESSION_LOGIN_USER");
 		if (appBean == null) {
 			((HttpServletResponse) response).sendRedirect(((HttpServletRequest) request).getContextPath()+"/login.jsp");
 			return;
